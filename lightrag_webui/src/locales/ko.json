@@ -111,7 +111,10 @@
         "removeFile": "파일 제거",
         "uploadDescription": "{{isMultiple ? '여러' : count}}개의 파일을 업로드할 수 있습니다 (각 최대 {{maxSize}})",
         "duplicateFile": "파일 이름이 서버 캐시에 이미 존재합니다"
-      }
+      },
+      "filePathsLabel": "참조 파일 경로 (선택)",
+      "filePathsPlaceholder": "한 줄에 하나의 파일 경로를 입력하세요. 업로드 순서대로 파일과 매칭됩니다",
+      "filePathsDescription": "업로드된 각 파일의 원본 파일 위치를 제공합니다. 한 줄에 하나의 경로, 업로드 순서로 매칭됩니다."
     },
     "documentManager": {
       "title": "문서 관리",
@@ -134,7 +137,9 @@
         "created": "생성일",
         "updated": "수정일",
         "metadata": "메타데이터",
-        "select": "선택"
+        "select": "선택",
+        "docFileName": "파일명",
+        "filePath": "파일 경로"
       },
       "status": {
         "all": "전체",

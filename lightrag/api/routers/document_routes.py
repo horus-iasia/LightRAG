@@ -18,6 +18,7 @@ from fastapi import (
     BackgroundTasks,
     Depends,
     File,
+    Form,
     HTTPException,
     UploadFile,
 )
@@ -1229,7 +1230,10 @@ def _extract_xlsx(file_bytes: bytes) -> str:
 
 
 async def pipeline_enqueue_file(
-    rag: LightRAG, file_path: Path, track_id: str = None
+    rag: LightRAG,
+    file_path: Path,
+    track_id: str = None,
+    custom_file_path: Optional[str] = None,
 ) -> tuple[bool, str]:
     """Add a file to the queue for processing
 
@@ -1237,6 +1241,7 @@ async def pipeline_enqueue_file(
         rag: LightRAG instance
         file_path: Path to the saved file
         track_id: Optional tracking ID, if not provided will be generated
+        custom_file_path: Optional user-provided reference file path
     Returns:
         tuple: (success: bool, track_id: str)
     """
@@ -1602,7 +1607,9 @@ async def pipeline_enqueue_file(
 
             try:
                 await rag.apipeline_enqueue_documents(
-                    content, file_paths=file_path.name, track_id=track_id
+                    content,
+                    file_paths=custom_file_path or file_path.name,
+                    track_id=track_id,
                 )
 
                 logger.info(
@@ -1686,17 +1693,23 @@ async def pipeline_enqueue_file(
                 logger.error(f"Error deleting file {file_path}: {str(e)}")
 
 
-async def pipeline_index_file(rag: LightRAG, file_path: Path, track_id: str = None):
+async def pipeline_index_file(
+    rag: LightRAG,
+    file_path: Path,
+    track_id: str = None,
+    custom_file_path: Optional[str] = None,
+):
     """Index a file with track_id
 
     Args:
         rag: LightRAG instance
         file_path: Path to the saved file
         track_id: Optional tracking ID
+        custom_file_path: Optional user-provided reference file path
     """
     try:
         success, returned_track_id = await pipeline_enqueue_file(
-            rag, file_path, track_id
+            rag, file_path, track_id, custom_file_path=custom_file_path
         )
         if success:
             await rag.apipeline_process_enqueue_documents()
@@ -2119,7 +2132,12 @@ def create_document_routes(
         "/upload", response_model=InsertResponse, dependencies=[Depends(combined_auth)]
     )
     async def upload_to_input_dir(
-        background_tasks: BackgroundTasks, file: UploadFile = File(...)
+        background_tasks: BackgroundTasks,
+        file: UploadFile = File(...),
+        file_path: Optional[str] = Form(
+            None,
+            description="Optional reference file path (e.g. original file location) to store alongside the document",
+        ),
     ):
         """
         Upload a file to the input directory and index it.
@@ -2216,9 +2234,9 @@ def create_document_routes(
                     track_id=existing_track_id,
                 )
 
-            file_path = doc_manager.input_dir / safe_filename
+            file_path_on_disk = doc_manager.input_dir / safe_filename
             # Check if file already exists in file system
-            if file_path.exists():
+            if file_path_on_disk.exists():
                 return InsertResponse(
                     status="duplicated",
                     message=f"File '{safe_filename}' already exists in the input directory.",
@@ -2230,7 +2248,7 @@ def create_document_routes(
             chunk_size = 1024 * 1024  # 1MB chunks
             needs_cleanup = False
 
-            async with aiofiles.open(file_path, "wb") as out_file:
+            async with aiofiles.open(file_path_on_disk, "wb") as out_file:
                 while True:
                     # Read chunk from upload stream
                     chunk = await file.read(chunk_size)
@@ -2253,7 +2271,7 @@ def create_document_routes(
             # Cleanup after file is closed
             if needs_cleanup:
                 try:
-                    file_path.unlink()
+                    file_path_on_disk.unlink()
                 except Exception as cleanup_error:
                     logger.error(
                         f"Error cleaning up oversized file {safe_filename}: {cleanup_error}"
@@ -2267,7 +2285,18 @@ def create_document_routes(
             track_id = generate_track_id("upload")
 
             # Add to background tasks and get track_id
-            background_tasks.add_task(pipeline_index_file, rag, file_path, track_id)
+            # Normalize the user-provided reference file path
+            custom_file_path = None
+            if file_path is not None and file_path.strip():
+                custom_file_path = file_path.strip()
+
+            background_tasks.add_task(
+                pipeline_index_file,
+                rag,
+                file_path_on_disk,
+                track_id,
+                custom_file_path=custom_file_path,
+            )
 
             return InsertResponse(
                 status="success",

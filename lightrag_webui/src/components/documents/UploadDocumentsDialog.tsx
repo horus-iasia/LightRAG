@@ -27,6 +27,7 @@ export default function UploadDocumentsDialog({ onDocumentsUploaded }: UploadDoc
   const [isUploading, setIsUploading] = useState(false)
   const [progresses, setProgresses] = useState<Record<string, number>>({})
   const [fileErrors, setFileErrors] = useState<Record<string, string>>({})
+  const [filePaths, setFilePaths] = useState('')
 
   const handleRejectedFiles = useCallback(
     (rejectedFiles: FileRejection[]) => {
@@ -86,8 +87,16 @@ export default function UploadDocumentsDialog({ onDocumentsUploaded }: UploadDoc
           collator.compare(a.name, b.name)
         );
 
+        // Parse file paths from textarea (one per line, matched by upload order)
+        const parsedPaths = filePaths
+          .split('\n')
+          .map((p) => p.trim())
+          .filter((p) => p.length > 0)
+
         // Upload files in sequence, not parallel
-        for (const file of sortedFiles) {
+        for (let i = 0; i < sortedFiles.length; i++) {
+          const file = sortedFiles[i]
+          const matchedPath = i < parsedPaths.length ? parsedPaths[i] : undefined
           try {
             // Initialize upload progress
             setProgresses((pre) => ({
@@ -101,7 +110,7 @@ export default function UploadDocumentsDialog({ onDocumentsUploaded }: UploadDoc
                 ...pre,
                 [file.name]: percentCompleted
               }))
-            })
+            }, matchedPath)
 
             if (result.status === 'duplicated') {
               uploadErrors[file.name] = t('documentPanel.uploadDocuments.fileUploader.duplicateFile')
@@ -175,7 +184,7 @@ export default function UploadDocumentsDialog({ onDocumentsUploaded }: UploadDoc
         setIsUploading(false)
       }
     },
-    [setIsUploading, setProgresses, setFileErrors, t, onDocumentsUploaded]
+    [setIsUploading, setProgresses, setFileErrors, filePaths, t, onDocumentsUploaded]
   )
 
   return (
@@ -188,6 +197,7 @@ export default function UploadDocumentsDialog({ onDocumentsUploaded }: UploadDoc
         if (!open) {
           setProgresses({})
           setFileErrors({})
+          setFilePaths('')
         }
         setOpen(open)
       }}
@@ -214,6 +224,23 @@ export default function UploadDocumentsDialog({ onDocumentsUploaded }: UploadDoc
           fileErrors={fileErrors}
           disabled={isUploading}
         />
+        <div className="mt-2">
+          <label className="text-sm font-medium" htmlFor="file-paths-input">
+            {t('documentPanel.uploadDocuments.filePathsLabel')}
+          </label>
+          <textarea
+            id="file-paths-input"
+            className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            rows={3}
+            placeholder={t('documentPanel.uploadDocuments.filePathsPlaceholder')}
+            value={filePaths}
+            onChange={(e) => setFilePaths(e.target.value)}
+            disabled={isUploading}
+          />
+          <p className="text-xs text-muted-foreground mt-1">
+            {t('documentPanel.uploadDocuments.filePathsDescription')}
+          </p>
+        </div>
       </DialogContent>
     </Dialog>
   )

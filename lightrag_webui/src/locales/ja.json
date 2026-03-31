@@ -111,7 +111,10 @@
         "removeFile": "ファイルを削除",
         "uploadDescription": "{{isMultiple ? '複数' : count}}個のファイルをアップロードできます（それぞれ最大{{maxSize}}まで）",
         "duplicateFile": "ファイル名がサーバーキャッシュに既に存在します"
-      }
+      },
+      "filePathsLabel": "参照ファイルパス（任意）",
+      "filePathsPlaceholder": "1行に1つのファイルパスを入力（アップロード順序でファイルと対応）",
+      "filePathsDescription": "アップロードファイルごとに元のファイルの場所を指定します。1行に1パス、アップロード順序で対応。"
     },
     "documentManager": {
       "title": "ドキュメント管理",
@@ -134,7 +137,9 @@
         "created": "作成日時",
         "updated": "更新日時",
         "metadata": "メタデータ",
-        "select": "選択"
+        "select": "選択",
+        "docFileName": "ファイル名",
+        "filePath": "ファイルパス"
       },
       "status": {
         "all": "すべて",

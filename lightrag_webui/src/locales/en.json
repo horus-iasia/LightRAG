@@ -111,7 +111,10 @@
         "removeFile": "Remove file",
         "uploadDescription": "You can upload {{isMultiple ? 'multiple' : count}} files (up to {{maxSize}} each)",
         "duplicateFile": "File name already exists in server cache"
-      }
+      },
+      "filePathsLabel": "Reference File Paths (optional)",
+      "filePathsPlaceholder": "Enter one file path per line, matched to uploaded files by order",
+      "filePathsDescription": "Provide the original file location for each uploaded file. One path per line, matched to files in upload order."
     },
     "documentManager": {
       "title": "Document Management",
@@ -134,7 +137,9 @@
         "created": "Created",
         "updated": "Updated",
         "metadata": "Metadata",
-        "select": "Select"
+        "select": "Select",
+        "docFileName": "File Name",
+        "filePath": "File Path"
       },
       "status": {
         "all": "All",

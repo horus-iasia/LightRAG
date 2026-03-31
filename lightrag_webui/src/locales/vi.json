@@ -111,7 +111,10 @@
         "removeFile": "Xóa tệp",
         "uploadDescription": "Bạn có thể tải lên {{isMultiple ? 'nhiều' : count}} tệp (tối đa {{maxSize}} mỗi tệp)",
         "duplicateFile": "Tên tệp đã tồn tại trong bộ nhớ cache của máy chủ"
-      }
+      },
+      "filePathsLabel": "Đường dẫn tệp tham chiếu (tùy chọn)",
+      "filePathsPlaceholder": "Nhập một đường dẫn tệp mỗi dòng, khớp với tệp tải lên theo thứ tự",
+      "filePathsDescription": "Cung cấp vị trí tệp gốc cho mỗi tệp tải lên. Một đường dẫn mỗi dòng, khớp theo thứ tự tải lên."
     },
     "documentManager": {
       "title": "Quản Lý Tài Liệu",
@@ -134,7 +137,9 @@
         "created": "Ngày Tạo",
         "updated": "Ngày Cập Nhật",
         "metadata": "Siêu Dữ Liệu",
-        "select": "Chọn"
+        "select": "Chọn",
+        "docFileName": "Tên Tệp",
+        "filePath": "Đường Dẫn Tệp"
       },
       "status": {
         "all": "Tất cả",

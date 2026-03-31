@@ -1399,6 +1399,20 @@ export default function DocumentManager() {
                           </div>
                         </TableHead>
                         <TableHead>{t('documentPanel.documentManager.columns.summary')}</TableHead>
+                        <TableHead>{t('documentPanel.documentManager.columns.docFileName')}</TableHead>
+                        <TableHead
+                          onClick={() => handleSort('file_path')}
+                          className="cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-800 select-none"
+                        >
+                          <div className="flex items-center">
+                            {t('documentPanel.documentManager.columns.filePath')}
+                            {sortField === 'file_path' && !showFileName && (
+                              <span className="ml-1">
+                                {sortDirection === 'asc' ? <ArrowUpIcon size={14} /> : <ArrowDownIcon size={14} />}
+                              </span>
+                            )}
+                          </div>
+                        </TableHead>
                         <TableHead>{t('documentPanel.documentManager.columns.status')}</TableHead>
                         <TableHead>{t('documentPanel.documentManager.columns.length')}</TableHead>
                         <TableHead>{t('documentPanel.documentManager.columns.chunks')}</TableHead>
@@ -1467,6 +1481,26 @@ export default function DocumentManager() {
                               </div>
                               <div className="invisible group-hover:visible tooltip">
                                 {doc.content_summary}
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell className="truncate max-w-[150px]">
+                            <div className="group relative overflow-visible tooltip-container">
+                              <div className="truncate">
+                                {getDisplayFileName(doc, 20)}
+                              </div>
+                              <div className="invisible group-hover:visible tooltip">
+                                {getDisplayFileName(doc, 200)}
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell className="truncate max-w-[200px]">
+                            <div className="group relative overflow-visible tooltip-container">
+                              <div className="truncate">
+                                {doc.file_path || '-'}
+                              </div>
+                              <div className="invisible group-hover:visible tooltip">
+                                {doc.file_path}
                               </div>
                             </div>
                           </TableCell>

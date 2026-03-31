@@ -111,7 +111,10 @@
         "removeFile": "إزالة الملف",
         "uploadDescription": "يمكنك رفع {{isMultiple ? 'عدة' : count}} ملفات (حتى {{maxSize}} لكل منها)",
         "duplicateFile": "اسم الملف موجود بالفعل في ذاكرة التخزين المؤقت للخادم"
-      }
+      },
+      "filePathsLabel": "مسارات الملفات المرجعية (اختياري)",
+      "filePathsPlaceholder": "أدخل مسار ملف واحد لكل سطر، مطابق للملفات المرفوعة بالترتيب",
+      "filePathsDescription": "حدد موقع الملف الأصلي لكل ملف مرفوع. مسار واحد لكل سطر، مطابق بترتيب الرفع."
     },
     "documentManager": {
       "title": "إدارة المستندات",
@@ -134,7 +137,9 @@
         "created": "تم الإنشاء",
         "updated": "تم التحديث",
         "metadata": "البيانات الوصفية",
-        "select": "اختيار"
+        "select": "اختيار",
+        "docFileName": "اسم الملف",
+        "filePath": "مسار الملف"
       },
       "status": {
         "all": "الكل",

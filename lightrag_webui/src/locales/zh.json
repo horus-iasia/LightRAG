@@ -111,7 +111,10 @@
         "removeFile": "移除文件",
         "uploadDescription": "您可以上传{{isMultiple ? '多个' : count}}个文件（每个文件最大{{maxSize}}）",
         "duplicateFile": "文件名与服务器上的缓存重复"
-      }
+      },
+      "filePathsLabel": "参考文件路径（可选）",
+      "filePathsPlaceholder": "每行输入一个文件路径，按上传顺序与文件匹配",
+      "filePathsDescription": "为每个上传的文件提供原始文件位置。每行一个路径，按上传顺序与文件匹配。"
     },
     "documentManager": {
       "title": "文档管理",
@@ -134,7 +137,9 @@
         "created": "创建时间",
         "updated": "更新时间",
         "metadata": "元数据",
-        "select": "选择"
+        "select": "选择",
+        "docFileName": "文件名",
+        "filePath": "文件路径"
       },
       "status": {
         "all": "全部",

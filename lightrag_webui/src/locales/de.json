@@ -111,7 +111,10 @@
         "removeFile": "Datei entfernen",
         "uploadDescription": "Sie können {{isMultiple ? 'mehrere' : count}} Dateien hochladen (bis zu {{maxSize}} pro Datei)",
         "duplicateFile": "Dateiname existiert bereits im Server-Cache"
-      }
+      },
+      "filePathsLabel": "Referenz-Dateipfade (optional)",
+      "filePathsPlaceholder": "Geben Sie einen Dateipfad pro Zeile ein, zugeordnet nach Upload-Reihenfolge",
+      "filePathsDescription": "Geben Sie den ursprünglichen Dateispeicherort für jede hochgeladene Datei an. Ein Pfad pro Zeile, zugeordnet in Upload-Reihenfolge."
     },
     "documentManager": {
       "title": "Dokumentenverwaltung",
@@ -134,7 +137,9 @@
         "created": "Erstellt",
         "updated": "Aktualisiert",
         "metadata": "Metadaten",
-        "select": "Auswählen"
+        "select": "Auswählen",
+        "docFileName": "Dateiname",
+        "filePath": "Dateipfad"
       },
       "status": {
         "all": "Alle",

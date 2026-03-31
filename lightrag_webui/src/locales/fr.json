@@ -111,7 +111,10 @@
         "removeFile": "Supprimer le fichier",
         "uploadDescription": "Vous pouvez télécharger {{isMultiple ? 'plusieurs' : count}} fichiers (jusqu'à {{maxSize}} chacun)",
         "duplicateFile": "Le nom du fichier existe déjà dans le cache du serveur"
-      }
+      },
+      "filePathsLabel": "Chemins de fichiers de référence (optionnel)",
+      "filePathsPlaceholder": "Entrez un chemin de fichier par ligne, associé aux fichiers par ordre de téléchargement",
+      "filePathsDescription": "Indiquez l'emplacement d'origine de chaque fichier téléchargé. Un chemin par ligne, associé dans l'ordre de téléchargement."
     },
     "documentManager": {
       "title": "Gestion des documents",
@@ -134,7 +137,9 @@
         "created": "Créé",
         "updated": "Mis à jour",
         "metadata": "Métadonnées",
-        "select": "Sélectionner"
+        "select": "Sélectionner",
+        "docFileName": "Nom du fichier",
+        "filePath": "Chemin du fichier"
       },
       "status": {
         "all": "Tous",
